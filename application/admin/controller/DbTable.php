@@ -159,7 +159,6 @@ class DbTable extends BaseController
 //        }
 //        $requiredRuleData = array_values($requiredRuleData);
 
-
         if (isset($postData['fileList']) && $postData['fileList'] !== []) {
             //生成vue文件
             if ($this->forceWriteVue === true) {
@@ -307,7 +306,7 @@ class DbTable extends BaseController
                     if ($val['key'] === $v['key']) {
                         //表单元素显示
                         $val['show'] = $v['show'];
-                        if($v['show']){
+                        if ($v['show']) {
 
                             $val['components'] = $itemComponentsData[$k]['name'];
                         }
@@ -473,6 +472,16 @@ class DbTable extends BaseController
         $backModelName = $this->convertUnderline($baseConfig['backModelName']);
         //表主键
         $pk = $baseConfig['pk'];
+        //查重
+        $check = $baseConfig['check'];
+        //查重字段
+        $checkField = $baseConfig['checkField'];
+
+        $isset=[];
+        foreach ($checkField as $item) {
+            $isset[$item]="isset($-postData['$item'])";
+        }
+        $isset = implode(' && ', $isset);
 
         //返回原始文件内容
         $firstTxt = "<?php
@@ -507,15 +516,15 @@ class {$backControllerName} extends BaseController
         $-where = [];
         if($-searchConf){
             foreach ($-searchConf as $-key=>$-val){
-                if($-val !== ''){";
-        $datePickerTxt = "
-                    if(in_array($-key, [{$datePicker}])){
+                if($-val !== ''){
+                    ";
+        $datePickerTxt = "if(in_array($-key, [{$datePicker}])){
                         $-db->whereTime($-key,'between', [" . '"{$-val} 00:00:00"' . ", " . '"{$val} 23:59:59"' . "]);
-                    }";
-        $dateRangePickerTxt = "else if(in_array($-key, [{$dateRangePicker}])){
+                    }else ";
+        $dateRangePickerTxt = "if(in_array($-key, [{$dateRangePicker}])){
                         $-db->whereTime($-key,'between', [" . '"{$val[0]} 00:00:00"' . ", " . '"{$val[1]} 23:59:59"' . "]);
-                    }";
-        $lastTxt = "else if($-key === 'status'){
+                    }else ";
+        $lastTxt = "if($-key === 'status'){
                         $-where[$-key] = $-val;
                     }else {
                         $-where[$-key] = ['like', '%'.$-val.'%'];
@@ -534,18 +543,31 @@ class {$backControllerName} extends BaseController
      */
     public function coruData()
     {
-        $-postData = $-this->request->post();
+        $-postData = $-this->request->post();";
+        $checkTxt = "
+        if($isset){
+            $-this->check = true;
+        }";
+        $finalTxt = "
         return $-this->coruBase($-postData);
     }
 }";
-        if (!$datePicker && !$dateRangePicker) {
+//        print_r($datePicker === '""' && $dateRangePicker === '""');
+//        exit;
+        if ($datePicker === '""' && $dateRangePicker === '""') {
             $controllerTxt = $firstTxt . $lastTxt;
-        } else if ($datePicker && !$dateRangePicker) {
+        } else if ($datePicker !== '""' && $dateRangePicker === '""') {
             $controllerTxt = $firstTxt . $datePickerTxt . $lastTxt;
-        } else if (!$datePicker && $dateRangePicker) {
+        } else if ($datePicker === '""' && $dateRangePicker !== '""' ) {
             $controllerTxt = $firstTxt . $dateRangePickerTxt . $lastTxt;
         } else {
             $controllerTxt = $firstTxt . $datePickerTxt . $dateRangePickerTxt . $lastTxt;
+        }
+
+        if(!$check){
+            $controllerTxt = $controllerTxt.$finalTxt;
+        }else{
+            $controllerTxt = $controllerTxt.$checkTxt.$finalTxt;
         }
 
         $path = '/admin/controller/';
@@ -586,15 +608,27 @@ class {$backControllerName} extends BaseController
         $backModelName = $this->convertUnderline($baseConfig['backModelName']);
         //表主键
         $pk = $baseConfig['pk'];
+        //查重
+        $check = $baseConfig['check'];
+        //查重字段
+        $checkField = $baseConfig['checkField'];
+        
+        $whereOr=[];
+        foreach ($checkField as $item) {
+            $whereOr[$item]="'$item'=>$-param['$item']";
+        }
+        $whereOr = implode(',', $whereOr);
+
+
 
         //返回原始文件内容
-        $logicTxt = "<?php
+        $firstTxt = "<?php
 
 namespace app\admin\logic;
 
 use app\admin\model\\$backModelName;
 use app\util\BaseLogic;
-use app\common\utils\ReturnCode;
+use app\util\ReturnCode;
 
 /**
  * {$backLogicName}
@@ -602,7 +636,39 @@ use app\common\utils\ReturnCode;
  * @package app\admin\logic
  */
 class {$backLogicName} extends BaseLogic
-{
+{";
+        $checkTxt = "
+    /**
+     * 参数检测
+     * @param $-param
+     * @return array
+     */
+    public function check($-param)
+    {
+        //查重
+        $-whereBase = [
+            'is_delete' => ['=', 0]
+        ];
+        $-wherePk = [
+            '{$pk}' => ['<>', $-param['{$pk}']]
+        ];
+        $-whereOr = [{$whereOr}];
+        if (!$-param['{$pk}']) {
+            $-count = ContentNews::where(function ($-query) use ($-whereOr, $-whereBase) {
+                $-query->whereOr($-whereOr);
+            })->where($-whereBase)->count();
+        } else {
+            $-count = ContentNews::where(function ($-query) use ($-whereOr, $-whereBase, $-wherePk) {
+                $-query->whereOr($-whereOr);
+            })->where($-whereBase)->where($-wherePk)->count();
+        }
+        if ($-count > 0) {
+            return $-this->resultFailed(ReturnCode::DATA_REPEAT, '数据重复');
+        }
+        return $-this->resultSuccess();
+    }
+    ";
+        $lastTxt = "
     /**
      * 创建OR更新
      * @param $-param
@@ -620,6 +686,11 @@ class {$backLogicName} extends BaseLogic
     }
 }
 ";
+        if($check && $whereOr){
+            $logicTxt = $firstTxt . $checkTxt . $lastTxt;
+        }else{
+            $logicTxt = $firstTxt . $lastTxt;
+        }
         $path = '/admin/logic/';
         if (!file_exists(APP_PATH . $path)) {
             mkdir(APP_PATH . $path, 0777, true);

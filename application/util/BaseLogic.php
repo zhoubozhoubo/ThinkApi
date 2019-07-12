@@ -9,10 +9,6 @@ namespace app\util;
  */
 class BaseLogic
 {
-    public function result($code, $msg='', $data = '')
-    {
-        return ['code' => $code, 'msg' => $msg, 'data' => $data];
-    }
     public function resultSuccess($data = '', $msg='成功', $code = 1)
     {
         return ['code' => $code, 'msg' => $msg, 'data' => $data];

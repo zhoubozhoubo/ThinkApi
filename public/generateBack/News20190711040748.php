@@ -27,11 +27,15 @@ class News extends BaseController
     {
         $searchConf = json_decode($this->request->get('searchConf', ''),true);
         $db = Db::name($this->table);
-        $where = [];
+        $where = [
+            'is_delete'=>0
+        ];
         if($searchConf){
             foreach ($searchConf as $key=>$val){
                 if($val !== ''){
                     if(in_array($key, ["gmt_modified"])){
+                        $db->whereTime($key,'between', ["{$val} 00:00:00", "{$val} 23:59:59"]);
+                    }else if(in_array($key, ["gmt_create"])){
                         $db->whereTime($key,'between', ["{$val[0]} 00:00:00", "{$val[1]} 23:59:59"]);
                     }else if($key === 'status'){
                         $where[$key] = $val;

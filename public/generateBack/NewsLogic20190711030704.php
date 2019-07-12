@@ -17,6 +17,7 @@ class NewsLogic extends BaseLogic
      * 参数检测
      * @param $param
      * @return array
+     * @throws \think\Exception
      */
     public function check($param)
     {

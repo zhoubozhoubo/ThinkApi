@@ -38,6 +38,8 @@ class ReturnCode {
 
     const CODE_ERROR = -23; // 验证码错误
 
+    const DATA_REPEAT = -993; // 数据重复
+
     const PARAM_DEFECT = -994; // 参数缺失
     const PARAM_INVALID = -995; // 参数无效
     const ACCESS_TOKEN_TIMEOUT = -996; // 非法请求

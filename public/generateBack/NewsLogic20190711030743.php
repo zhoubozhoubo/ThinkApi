@@ -4,7 +4,7 @@ namespace app\admin\logic;
 
 use app\admin\model\ContentNews;
 use app\util\BaseLogic;
-use app\util\ReturnCode;
+use app\common\utils\ReturnCode;
 
 /**
  * NewsLogic

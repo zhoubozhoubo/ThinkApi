@@ -206,7 +206,7 @@ class BaseController extends Controller
      * @param $data
      * @return array
      */
-    public function returnSuccess($data)
+    /*public function returnSuccess($data)
     {
         $return = [
             'code' => 1,
@@ -218,14 +218,14 @@ class BaseController extends Controller
         }
 
         return $return;
-    }
+    }*/
 
 
     /** 失败返回
      * @param $data
      * @return array
      */
-    public function returnError($data)
+    /*public function returnError($data)
     {
         $return = [
             'code' => 0,
@@ -237,7 +237,7 @@ class BaseController extends Controller
         }
 
         return $return;
-    }
+    }*/
 
     /**
      * 创建/更新Base方法
