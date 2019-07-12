@@ -396,7 +396,7 @@ class DbTable extends BaseController
         //原始vue文件内容
         $vueTxt = $this->fetch('vue');
 
-        $path = '/web/src/view/' . $modelName . '/' . $groupName . '/';
+        $path = '/ThinkApiWeb/src/views/' . $modelName . '/' . $groupName . '/';
 
         if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $path)) {
             mkdir($_SERVER['DOCUMENT_ROOT'] . $path, 0777, true);
@@ -431,7 +431,7 @@ class DbTable extends BaseController
     {
         $this->assign('backControllerName', $backControllerName);
         $jsTxt = $this->fetch('js');
-        $path = '/web/src/api/';
+        $path = '/ThinkApiWeb/src/api/';
         if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $path)) {
             mkdir($_SERVER['DOCUMENT_ROOT'] . $path, 0777, true);
         }
