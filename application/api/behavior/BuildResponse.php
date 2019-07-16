@@ -16,13 +16,6 @@ use think\Request;
 
 class BuildResponse {
 
-    /** 允许携带cookie跨域访问的路由
-     * @var array
-     */
-    public $cookie_url=[
-        '5bfdf690745eb',
-        '5bfdf92392578'
-    ];
     /**
      * 返回参数过滤（主要是将返回参数的数据类型给规范）
      * @param $response \think\Response
@@ -30,20 +23,11 @@ class BuildResponse {
      * @throws \think\exception\DbException
      */
     public function run($response) {
-        //读取跨域配置
         $header = config('apiAdmin.CROSS_DOMAIN');
-
-        //获取当前请求详情
-        $request = Request::instance();
-        $hash = $request->routeInfo();
-
-        //判断当前请求的路由是否存在于数组中,存在则允许跨域
-        if(in_array($hash['rule'][1],$this->cookie_url) && $hash['rule'][0] == 'api'){
-            $header['Access-Control-Allow-Origin'] = 'http://dbdb00913b65fd62.natapp.cc';
-        }
         $response->header($header);
         $data = $response->getData();
-
+        $request = Request::instance();
+        $hash = $request->routeInfo();
         if (isset($hash['rule'][1])) {
             $hash = $hash['rule'][1];
 

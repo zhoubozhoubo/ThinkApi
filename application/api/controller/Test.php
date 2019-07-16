@@ -2,14 +2,12 @@
 
 namespace app\api\controller;
 
+use app\util\BaseController;
 
-use app\util\StrRandom;
-
-class Miss extends Base {
+class Test extends BaseController {
     public function index() {
         $this->debug([
-            'TpVersion' => THINK_VERSION,
-            'Float' => StrRandom::randomPhone()
+            'TpVersion' => THINK_VERSION
         ]);
 
         return $this->buildSuccess([

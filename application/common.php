@@ -81,44 +81,6 @@ function isPhone($str = '')
 }
 
 /**
- * 获得用户所有下级
- * @param $id_str
- * @param $table
- * @return string
- */
-function getDiguiId($id_str)
-{
-    $finaly_str = '';
-    $id_arr = explode(',', $id_str);
-    foreach ($id_arr as $k => $v) {
-        $new_arr = Db::name('User')->where(['fid' => $v])->column('id');
-        if ($new_arr) {
-            $new_str = implode(',', $new_arr);
-            $finaly_str .= $v . ',' . getDiguiId($new_str);
-        } else {
-            $finaly_str .= $v . ',';
-        }
-    }
-    return $finaly_str;
-}
-
-/**
- * 读取，设置提成参数
- */
-function extconf($name, $value = null)
-{
-    static $config = [];
-    if ($value !== null) {
-        list($config, $data) = [[], ['name' => $name, 'value' => $value]];
-        return DataService::save('ExtractConfig', $data, 'name');
-    }
-    if (empty($config)) {
-        $config = Db::name('ExtractConfig')->column('name,value');
-    }
-    return isset($config[$name]) ? $config[$name] : '';
-}
-
-/**
  * 下载远程文件到本地
  * @param string $url 远程图片地址
  * @return string
@@ -128,41 +90,6 @@ function local_image($url)
     return FileService::download($url)['url'];
 }
 
-/** 邀请码
- * @return mixed|string
- */
-function code(){
-    //查询最新记录
-    $xh = Db::name('User')->order('code desc')->limit(0, 1)->value('code');
-
-    if (!empty($xh)) {
-        return ++$xh;
-    } else {
-        return '1001';
-    }
-}
-
-/** 开码返现开关
- * @return mixed
- */
-function re(){
-    $db=Db::name('re')->find();
-    return $db['status'];
-}
-
-/** 前端地址
- * @return string
- */
-function IndexUrl(){
-    return 'http://dbdb00913b65fd62.natapp.cc';
-}
-
-/** 后端地址
- * @return string
- */
-function AdminUrl(){
-    return 'http://1b06d7955f45ea92.natapp.cc';
-}
 
 /**
  * 截取日期
