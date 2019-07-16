@@ -2,6 +2,13 @@
     margin: 0;
     padding: 0;
 }
+a{
+    color: #FFFFFF;
+    text-decoration: none;
+}
+h1,h2,h3,h4,h5,h6{
+    font-weight: normal!important;
+}
 ul,ol,li{
     list-style: none;
 }
@@ -69,13 +76,19 @@ ul,ol,li{
     line-height: 50px;
     background-image: url("../images/barbg.png");
     background-size: 142px 57px;
+    cursor: pointer;
 }
 .bg .main .bar .action{
     background-image: url("../images/barbgac.png");
 }
 .bg .main .line{
     display: block;
-    margin: 0 auto 20px;
+    margin: 0 auto 80px;
+}
+.bg .main .content .left_line_title{
+    border-left: 6px solid #FFFFFF;
+    padding-left: 20px;
+    color: #FFFFFF;
 }
 .bg .footer{
     /*width: 1200px;*/
@@ -106,6 +119,9 @@ ul,ol,li{
 .bg .footer .info .partners{
     float: right;
     line-height: 120px;
+}
+.bg .cursor{
+    cursor: pointer;
 }
 .bg .hide{
     display: none!important;
