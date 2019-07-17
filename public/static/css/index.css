@@ -72,7 +72,7 @@
     width: 400px;
     height: 400px;
     margin-right: 19px;
-    background-color: #15417e;
+    /*background-color: #15417e;*/
 }
 .content .message .info {
     width: 300px;
@@ -82,7 +82,7 @@
     font-size: 24px;
     line-height: 60px;
     text-align: center;
-    background-color: #15417e;
+    /*background-color: #15417e;*/
 }
 .content .message .info li {
     width: 260px;
@@ -113,4 +113,57 @@
 .content .wonderful_images {
     width: 1040px;
     margin: 0 auto;
+}
+.content .wonderful_images .image{
+    position: relative;
+}
+.content .wonderful_images .image_title{
+    position: absolute;
+    color: #c9cacb;
+    bottom: 0;
+    width: 100%;
+    font-size: 12px;
+    line-height: 25px;
+    background-color: #1b3155;
+}
+.content .wonderful_images .image_title .image_title_icon{
+    margin: 0 8px 0 20px;
+}
+.content .wonderful_images .image_one{
+    width: 360px;
+    height: 195px;
+    margin-right: 5px;
+}
+.content .wonderful_images .image_two{
+    width: 290px;
+    height: 95px;
+    margin-right: 5px;
+}
+.content .wonderful_images .image_three{
+    width: 380px;
+    height: 95px;
+}
+.content .wonderful_images .image_four{
+    width: 290px;
+    height: 95px;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+.content .wonderful_images .image_five{
+    width: 380px;
+    height: 95px;
+    margin-top: 5px;
+}
+.content .wonderful_images .more{
+    float: right;
+    font-size: 14px;
+    text-align: right;
+    line-height: 40px;
+    color: #FFFFFF;
+}
+.content .wonderful_images .more_icon{
+    float: right;
+    margin: 13px 0 0 5px;
+    width: 14px;
+    height: 14px;
 }

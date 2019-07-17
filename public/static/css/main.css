@@ -85,11 +85,29 @@ ul,ol,li{
     display: block;
     margin: 0 auto 80px;
 }
+
+
 .bg .main .content .left_line_title{
     border-left: 6px solid #FFFFFF;
     padding-left: 20px;
     color: #FFFFFF;
+    margin: 25px 0;
+    line-height: 30px;
 }
+.bg .main .content .float_left{
+    float: left;
+}
+.bg .main .content .float_right{
+    float: right;
+}
+.bg .main .content .bg_color{
+    background-color: #15417e;
+}
+.bg .main .content .text_center{
+    text-align: center;
+}
+
+
 .bg .footer{
     /*width: 1200px;*/
     height: 30px;
