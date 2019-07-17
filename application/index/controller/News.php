@@ -13,15 +13,15 @@ use think\Controller;
 
 class News extends Controller{
     public function index(){
-        $where = [
-            'status'=>1,
-            'is_delete'=>0
-        ];
-        $news = ContentNews::where($where)->paginate(10);
-        $page = $news->render();
-
-        $this->assign('news',$news);
-        $this->assign('page',$page);
+//        $where = [
+//            'status'=>1,
+//            'is_delete'=>0
+//        ];
+//        $news = ContentNews::where($where)->paginate(10);
+//        $page = $news->render();
+//
+//        $this->assign('news',$news);
+//        $this->assign('page',$page);
 
         return $this->fetch();
     }
