@@ -44,7 +44,6 @@ ul,ol,li{
     text-align: center;
     line-height: 34px;
     background-image: url("../images/baomin.png");
-    background-size: 136px 34px;
 }
 .bg .main .header .banner{
     width: 1200px;
@@ -100,9 +99,6 @@ ul,ol,li{
 .bg .main .content .float_right{
     float: right;
 }
-.bg .main .content .bg_color{
-    background-color: #15417e;
-}
 .bg .main .content .text_center{
     text-align: center;
 }
@@ -119,7 +115,7 @@ ul,ol,li{
 .bg .footer .info{
     /*width: 1050px;*/
     height: 330px;
-    background-color: #15417e;
+    /*background-color: #15417e;*/
 }
 .bg .footer .info ul{
     width: 1050px;
@@ -137,6 +133,22 @@ ul,ol,li{
 .bg .footer .info .partners{
     float: right;
     line-height: 120px;
+}
+
+
+.bg .bg_size{
+    background-size: 100% 100%;
+}
+.bg .bg_color{
+    background-color: #15417e;
+}
+.bg .see_more{
+    width: 100%;
+    margin-top: 40px;
+    margin-bottom: 80px;
+    line-height: 40px;
+    font-size: 14px;
+    color: #FFFFFF;
 }
 .bg .cursor{
     cursor: pointer;
