@@ -4,8 +4,11 @@ namespace app\index\controller;
 
 use think\Controller;
 
-class PlayerScoreList extends Controller{
+class PlayerScore extends Controller{
     public function index(){
+        return $this->fetch();
+    }
+    public function details(){
         return $this->fetch();
     }
 }
