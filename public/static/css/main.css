@@ -77,6 +77,10 @@ ul,ol,li{
     background-size: 142px 57px;
     cursor: pointer;
 }
+.bg .main .bar li a{
+    display: inline-block;
+    width: 142px;
+}
 .bg .main .bar .action{
     background-image: url("../images/barbgac.png");
 }
