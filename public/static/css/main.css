@@ -179,6 +179,9 @@ ul,ol,li{
 .bg .page ul li:last-child{
     background-image: url("../images/pageright.png");
 }
+.bg .bold{
+    font-weight: bold!important;
+}
 .bg .cursor{
     cursor: pointer;
 }
