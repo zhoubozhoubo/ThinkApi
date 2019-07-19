@@ -2,6 +2,7 @@
 
 namespace app\admin\controller;
 
+use app\model\AdminMenu;
 use app\util\BaseController;
 use think\Db;
 use think\exception\DbException;
@@ -209,6 +210,21 @@ class DbTable extends BaseController
 
             //生成Model文件
             $modelRes = $this->createModel($baseConfig['backModelName']);
+        }
+
+        //自动生成菜单
+        if($postData['baseConfig']['autoMenu']){
+            $menuAttribute = $postData['baseConfig']['menuAttribute'];
+            if($menuAttribute){
+                foreach ($menuAttribute as $item){
+                    $menu = AdminMenu::where('url',$item['url'])->count();
+                    if(!$menu){
+                        AdminMenu::create($item);
+                    }
+                }
+//                $adminMenu = new AdminMenu();
+//                $adminMenu->saveAll($menuAttribute);
+            }
         }
 
         if ($vueRes === 1 && $jsRes === 1 && $controllerRes === 1 && $logicRes === 1 && $modelRes === 1) {

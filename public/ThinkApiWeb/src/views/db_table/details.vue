@@ -81,7 +81,6 @@
                                         <span v-else style="color: #ed4014;"><Icon type="ios-alert-outline" size="12"/> 后端模型名称</span>
                                     </p>
                                 </div>
-
                             </FormItem>
                             <FormItem label="前端文件配置：">
                                 <Input style="width: 150px;" v-model="baseConfig.frontModelName" clearable
@@ -107,6 +106,34 @@
                                         <span v-else style="color: #ed4014;"><Icon type="ios-alert-outline" size="12"/> 前端vue文件名称</span>
                                     </p>
                                 </div>
+                            </FormItem>
+                            <FormItem label="自动生成菜单：">
+                                <i-switch style="margin-right: 15px;" size="large" v-model="baseConfig.autoMenu">
+                                    <span slot="open">是</span>
+                                    <span slot="close">否</span>
+                                </i-switch>
+                            </FormItem>
+                            <FormItem label="菜单配置：" v-if="baseConfig.autoMenu">
+                                <div v-for="(menu, index) in baseConfig.menuAttribute">
+                                    <Input style="width: 150px;" v-model="menu.name" clearable
+                                           placeholder="请输入菜单名称"></Input>
+                                    <Input style="width: 150px;" v-model="menu.url" clearable
+                                           placeholder="请输入菜单URL"></Input>
+                                    <Icon type="md-remove-circle" size="20" color="#ed4014" style="margin-left: 10px" v-if="index > 0" @click="delMenu(index)"/>
+                                    <div>
+                                        <p style="display: inline-block; width: 150px; font-size: 12px; color: #ed4014;">
+                                        <span v-if="menu.name.trim()" style="color: #515a6e;"><Icon
+                                                type="ios-alert-outline" size="12"/> 后台菜单名称</span>
+                                            <span v-else style="color: #ed4014;"><Icon type="ios-alert-outline" size="12"/> 后台菜单名称</span>
+                                        </p>
+                                        <p style="display: inline-block; width: 150px; font-size: 12px; color: #ed4014;">
+                                        <span v-if="menu.url.trim()" style="color: #515a6e;"><Icon
+                                                type="ios-alert-outline" size="12"/> 后台菜单URL</span>
+                                            <span v-else style="color: #ed4014;"><Icon type="ios-alert-outline" size="12"/> 后台菜单URL</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <Button type="success" ghost @click="addMenu" icon="md-add">添加菜单</Button>
                             </FormItem>
                         </Form>
 
@@ -149,7 +176,6 @@
     const checkbox = (vm, h, currentRow, index, data, dataOther = '') => {
         if(data === vm.itemShowData){
             if (!vm.itemData[index].key) {
-                console.log(vm.itemData[index].key)
                 return h('Checkbox', {
                     props: {
                         value: vm.itemShowData[index].show,
@@ -452,6 +478,17 @@
                     frontGroupName: '',
                     // 前端vue文件名称
                     frontVueName: '',
+                    // 自动生成菜单
+                    autoMenu: true,
+                    // 菜单属性
+                    menuAttribute: [
+                        {
+                            name: '',
+                            url: 'admin/'
+                        }
+                    ],
+                    menuName: '',
+                    menuUrl: '',
                 },
                 ruleValidate: {
                     pk: [{message: '请选择表主键', trigger: 'blur'}]
@@ -700,6 +737,18 @@
             goBack() {
                 this.$router.go(-1)
             },
+            // 添加菜单
+            addMenu() {
+                this.baseConfig.menuAttribute.push({
+                    name: '',
+                    url: ''
+                })
+            },
+            // 删除菜单
+            delMenu(index) {
+                this.baseConfig.menuAttribute.splice(index, 1)
+            },
+            // 获取数据列表
             getList() {
                 this.tableLoading = true
                 getTableFullFields(this.tableName).then(res => {
