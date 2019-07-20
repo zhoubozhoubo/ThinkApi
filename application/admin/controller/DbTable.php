@@ -9,6 +9,8 @@ use think\exception\DbException;
 
 class DbTable extends BaseController
 {
+    //前端文件路径
+    public $webPath = '/ThinkApiWeb/src/';
     //是否强制写入vue文件
     public $forceWriteVue = false;
     //是否强制写入js文件
@@ -412,7 +414,7 @@ class DbTable extends BaseController
         //原始vue文件内容
         $vueTxt = $this->fetch('vue');
 
-        $path = '/ThinkApiWeb/src/views/' . $modelName . '/' . $groupName . '/';
+        $path = $this->webPath .'views/' . $modelName . '/' . $groupName . '/';
 
         if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $path)) {
             mkdir($_SERVER['DOCUMENT_ROOT'] . $path, 0777, true);
@@ -447,7 +449,7 @@ class DbTable extends BaseController
     {
         $this->assign('backControllerName', $backControllerName);
         $jsTxt = $this->fetch('js');
-        $path = '/ThinkApiWeb/src/api/';
+        $path = $this->webPath .'api/';
         if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $path)) {
             mkdir($_SERVER['DOCUMENT_ROOT'] . $path, 0777, true);
         }
@@ -535,10 +537,14 @@ class {$backControllerName} extends BaseController
                 if($-val !== ''){
                     ";
         $datePickerTxt = "if(in_array($-key, [{$datePicker}])){
-                        $-db->whereTime($-key,'between', [" . '"{$-val} 00:00:00"' . ", " . '"{$val} 23:59:59"' . "]);
+                        if($-val){
+                            $-db->whereTime($-key,'between', [" . '"{$-val} 00:00:00"' . ", " . '"{$val} 23:59:59"' . "]);
+                        }
                     }else ";
         $dateRangePickerTxt = "if(in_array($-key, [{$dateRangePicker}])){
-                        $-db->whereTime($-key,'between', [" . '"{$val[0]} 00:00:00"' . ", " . '"{$val[1]} 23:59:59"' . "]);
+                        if($-val[0]&&$-val[1]){
+                            $-db->whereTime($-key,'between', [" . '"{$val[0]} 00:00:00"' . ", " . '"{$val[1]} 23:59:59"' . "]);
+                        }
                     }else ";
         $lastTxt = "if($-key === 'status'){
                         $-where[$-key] = $-val;
